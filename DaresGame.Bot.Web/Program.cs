@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
+using DaresGame.Bot.Web.Models.Data;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace DaresGame.Bot.Web
@@ -12,7 +14,15 @@ namespace DaresGame.Bot.Web
         {
             try
             {
-                CreateWebHostBuilder(args).Build().Run();
+                IWebHost host = CreateWebHostBuilder(args).Build();
+
+                using (IServiceScope scope = host.Services.CreateScope())
+                {
+                    IServiceProvider services = scope.ServiceProvider;
+                    var db = services.GetRequiredService<DaresGameDbContext>();
+                    DbInitializer.Initialize(db);
+                }
+                host.Run();
             }
             catch (Exception ex)
             {

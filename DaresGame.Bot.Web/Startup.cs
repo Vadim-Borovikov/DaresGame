@@ -1,4 +1,5 @@
-﻿using DaresGame.Bot.Web.Models;
+﻿// ReSharper disable UnusedMember.Global
+using DaresGame.Bot.Web.Models;
 using DaresGame.Bot.Web.Models.Data;
 using DaresGame.Bot.Web.Models.Services;
 using Microsoft.AspNetCore.Builder;
@@ -34,6 +35,8 @@ namespace DaresGame.Bot.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddDbContext<DaresGameDbContext>(options =>
+                options.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

@@ -12,8 +12,6 @@ namespace DaresGame.Bot.Web.Models
 
         public float ChoiceChance { get; set; }
 
-        public string DecksFolderPath { get; set; }
-
         public string Url => $"{Host}:{Port}/{Token}";
     }
 }
