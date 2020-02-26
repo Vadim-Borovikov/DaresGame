@@ -1,11 +1,13 @@
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 namespace DaresGame.Bot.Web.Models
 {
-    public class BotConfiguration
+    internal class BotConfiguration
     {
         public string Token { get; set; }
 
         public string Host { get; set; }
 
+        // ReSharper disable once MemberCanBePrivate.Global
         public int Port { get; set; }
 
         public ushort InitialPlayersAmount { get; set; }
