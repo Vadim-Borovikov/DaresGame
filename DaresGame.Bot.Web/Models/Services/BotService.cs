@@ -30,7 +30,7 @@ namespace DaresGame.Bot.Web.Models.Services
             using (IServiceScope scope = scopeFactory.CreateScope())
             {
                 var db = scope.ServiceProvider.GetRequiredService<DaresGameDbContext>();
-                List<Deck> decks = db.Decks.Select(CreateDeck).ToList();
+                List<Deck> decks = db.Decks.OrderBy(d => d.Order).Select(CreateDeck).ToList();
                 GameLogic = new GameLogic(Client, _config.InitialPlayersAmount, _config.ChoiceChance, decks);
             }
 

@@ -31,20 +31,19 @@ namespace DaresGame.Bot.Web.Models.Data
                 throw new Exception("Incorrect deck");
             }
 
-            string tag = lines[0];
-
-            var cards = new List<Card>();
-            for (int i = 1; i < lines.Length; ++i)
+            string[] header = lines[0].Split(';');
+            if (!uint.TryParse(header[0], out uint order))
             {
-                string line = lines[i];
-                Card card = InitializeCard(line, db);
-                cards.Add(card);
+                throw new Exception("Incorrect deck");
             }
+
+            List<Card> cards = lines.Skip(1).Select(line => InitializeCard(line, db)).ToList();
             db.SaveChanges();
 
             var deck = new Deck
             {
-                Tag = tag,
+                Order = order,
+                Tag = header[1],
                 Cards = cards
             };
             db.Decks.Add(deck);
